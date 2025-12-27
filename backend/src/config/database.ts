@@ -1,11 +1,11 @@
-import Database from 'better-sqlite3';
+import Database, { Database as DatabaseType } from 'better-sqlite3';
 import path from 'path';
 
 const dbPath = process.env.NODE_ENV === 'production'
   ? '/app/data/poubelle.db'
   : path.join(__dirname, '../../data/poubelle.db');
 
-export const db = new Database(dbPath);
+export const db: DatabaseType = new Database(dbPath);
 
 export function initDatabase(): void {
   db.exec(`
