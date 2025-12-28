@@ -1,4 +1,4 @@
-# Poubelle Copropriété - Mémo Projet
+# Planning Poubelle Copropriété - Mémo Projet
 
 ## Accès VPS
 
@@ -11,8 +11,20 @@
 
 ## URLs
 
-- **Application** : http://82.25.116.190:8080
+- **Application** : https://planningpoubelle.duckdns.org
 - **GitHub** : https://github.com/BruceMong/poubelle-copropriete.git
+
+## DuckDNS
+
+| Propriété | Valeur |
+|-----------|--------|
+| **Domaine** | planningpoubelle.duckdns.org |
+| **Token** | cf6d8632-a7ad-45d3-b01e-a68d639b7f5a |
+
+Mise à jour manuelle de l'IP (si changement) :
+```bash
+curl "https://www.duckdns.org/update?domains=planningpoubelle&token=cf6d8632-a7ad-45d3-b01e-a68d639b7f5a&ip=NOUVELLE_IP"
+```
 
 ## Localisation du projet
 
@@ -24,6 +36,7 @@
 - **Frontend** : React + TypeScript + Vite
 - **Backend** : Node.js + Express + TypeScript
 - **Base de données** : SQLite (volume Docker persistant)
+- **Reverse Proxy** : Traefik (HTTPS automatique via Let's Encrypt)
 - **Déploiement** : Docker Compose
 
 ## Mise à jour du projet
@@ -86,12 +99,13 @@ ADMIN_EMAIL=copropriete.rappel@gmail.com
 ssh root@82.25.116.190 "nano ~/poubelle-copropriete/.env"
 ```
 
-## Ports utilisés
+## Architecture réseau
 
-| Service | Port interne | Port externe |
-|---------|--------------|--------------|
-| Frontend (Nginx) | 80 | 8080 |
-| Backend (Node) | 3000 | - (interne) |
+| Service | Port interne | Accès externe |
+|---------|--------------|---------------|
+| Frontend (Nginx) | 80 | Via Traefik (443) |
+| Backend (Node) | 3000 | Interne uniquement |
+| Traefik | 80, 443 | Public |
 
 ## Base de données
 
